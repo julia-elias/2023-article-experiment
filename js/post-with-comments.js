@@ -8,18 +8,17 @@ $(document).ready(function(){
     if (commenter_name.length > 0 && new_comment.length > 0 ) {
       submitComment(commenter_name, new_comment, identifier);
       appendComment(commenter_name, new_comment);
+      // send to google
+      ga('send','event','Comments', 'Add Comment', 'Add Comment Successful');
 
     } else {
       submitCommentError();
       // var commenter_position = ".support";
       // send to google
-      ga('send','event','Comments', 'Add Error', 'Form not entered correctly');
+      ga('send','event','Comments', 'Add Comment Error', 'Form not entered correctly');
     }
 
     // var commenter_position = ".support";
-    // send to google
-    ga('send','event','Comments', 'Add', 'Add Comment');
-
     event.preventDefault();
   });
 
