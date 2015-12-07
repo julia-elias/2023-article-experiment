@@ -10,12 +10,13 @@ $(document).ready(function() {
         $('.show-comments-wrap').remove();
         $('.comments-section').fadeIn();
         // send to google
-        ga('send','event','Button','Click', 'Show Comments');
+        ga('send','event','Comments', 'Show', 'Show Comments');
     });
 
     $('.social-share__link').click(function(e){
-        var label = $(this).attr('data-event');
-        ga('send','event','Button', 'Click', label);
+        var action = $(this).attr('data-action');
+        var label = $(this).attr('data-label');
+        ga('send','event', 'Social', action, label);
     });
 
 

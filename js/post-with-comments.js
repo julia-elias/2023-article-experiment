@@ -4,9 +4,6 @@ $(document).ready(function(){
     var commenter_name = $("#commenter-name").val();
     var new_comment = $("#commenter-comment").val();
     var identifier = $("#comment-identifier").val();
-    // var commenter_position = ".support";
-    // send to google
-    ga('send','event','Button','Click', 'Add Comment');
 
     if (commenter_name.length > 0 && new_comment.length > 0 ) {
       submitComment(commenter_name, new_comment, identifier);
@@ -14,7 +11,14 @@ $(document).ready(function(){
 
     } else {
       submitCommentError();
+      // var commenter_position = ".support";
+      // send to google
+      ga('send','event','Comments', 'Add Error', 'Form not entered correctly');
     }
+
+    // var commenter_position = ".support";
+    // send to google
+    ga('send','event','Comments', 'Add', 'Add Comment');
 
     event.preventDefault();
   });

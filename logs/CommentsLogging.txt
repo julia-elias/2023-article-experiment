@@ -1,2 +1,3 @@
 problem|127.0.0.1|10/26/2015 4:33:13 PM|Name here|This should log as the problem.
 solution|127.0.0.1|10/26/2015 4:33:39 PM|Name Solution|Log as Solution
+solution|127.0.0.1|12/07/2015 12:23:28 PM|Test|Comment
