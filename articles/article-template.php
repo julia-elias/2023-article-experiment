@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <?php
+        function get_the_ip() {
+            //Just get the headers if we can or else use the SERVER global
+            if ( function_exists( 'apache_request_headers' ) ) {
+                $headers = apache_request_headers();
+            } else {
+                $headers = $_SERVER;
+            }
+            //Get the forwarded IP if it exists
+            if ( array_key_exists( 'X-Forwarded-For', $headers ) && filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+                $the_ip = $headers['X-Forwarded-For'];
+            } elseif ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $headers ) && filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )) {
+                $the_ip = $headers['HTTP_X_FORWARDED_FOR'];
+            } else {
+                $the_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );
+            }
+            if(!empty($the_ip)){
+                return $the_ip;
+            } else {
+                return false;
+            }
+        }
+
+        $user_ip = get_the_ip();
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><? echo $title;?> | The News Beat</title>
@@ -38,6 +63,27 @@
 </head>
 
 <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '974623229274971',
+          xfbml      : false,
+          version    : 'v2.5'
+        });
+
+
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div id="user-ip" class="hidden" data-ip="<? echo $user_ip;?>"></div>
 
 <header class="header container container--wide" role="banner">
     <div class="site-title">The News Beat</div>
@@ -52,7 +98,8 @@
 
         <ul class="social-share social-share--top">
             <li class="social-share__item social-share__item--facebook">
-                <a class="social-share__link social-share__link--facebook social-share__link--facebook-top" data-action="Facebook Share" data-label="Top" href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=<? print(urlencode($current_url));?>', 'facebook_share_dialog', 'width=626,height=436');return false;">
+                <a class="social-share__link social-share__link--facebook social-share__link--facebook-top" data-position="Top" data-label="<? echo $user_ip;?>"
+                    data-url="<? echo $current_url;?>" href="#">
                     <span class="icon-social icon-social--facebook" role="presentation" aria-hidden="true">
                         <svg viewBox="0 0 33 33" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M 17.996,32L 12,32 L 12,16 l-4,0 l0-5.514 l 4-0.002l-0.006-3.248C 11.993,2.737, 13.213,0, 18.512,0l 4.412,0 l0,5.515 l-2.757,0 c-2.063,0-2.163,0.77-2.163,2.209l-0.008,2.76l 4.959,0 l-0.585,5.514L 18,16L 17.996,32z"></path></g></svg>
                     </span>
@@ -60,7 +107,7 @@
                 </a>
             </li>
             <li class="social-share__item social-share__item--twitter">
-                <a class="social-share__link social-share__link--twitter social-share__link--twitter-top" data-action="Twitter Share" data-label="Top" href="#" onclick="window.open('http://twitter.com/intent/tweet?status=<?print(urlencode($title));?> <? print(urlencode($current_url));?>', 'twitter-share-dialog', 'width=626,height=436');return false;">
+                <a class="social-share__link social-share__link--twitter social-share__link--twitter-top" data-action="Twitter Share - Top" data-label="<? echo $user_ip;?>" href="#" onclick="window.open('http://twitter.com/intent/tweet?status=<?print(urlencode($title));?> <? print(urlencode($current_url));?>', 'twitter-share-dialog', 'width=626,height=436');return false;">
                     <span class="icon-social icon-social--twitter" role="presentation" aria-hidden="true" >
                         <svg viewBox="0 0 33 33" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M 32,6.076c-1.177,0.522-2.443,0.875-3.771,1.034c 1.355-0.813, 2.396-2.099, 2.887-3.632 c-1.269,0.752-2.674,1.299-4.169,1.593c-1.198-1.276-2.904-2.073-4.792-2.073c-3.626,0-6.565,2.939-6.565,6.565 c0,0.515, 0.058,1.016, 0.17,1.496c-5.456-0.274-10.294-2.888-13.532-6.86c-0.565,0.97-0.889,2.097-0.889,3.301 c0,2.278, 1.159,4.287, 2.921,5.465c-1.076-0.034-2.088-0.329-2.974-0.821c-0.001,0.027-0.001,0.055-0.001,0.083 c0,3.181, 2.263,5.834, 5.266,6.438c-0.551,0.15-1.131,0.23-1.73,0.23c-0.423,0-0.834-0.041-1.235-0.118 c 0.836,2.608, 3.26,4.506, 6.133,4.559c-2.247,1.761-5.078,2.81-8.154,2.81c-0.53,0-1.052-0.031-1.566-0.092 c 2.905,1.863, 6.356,2.95, 10.064,2.95c 12.076,0, 18.679-10.004, 18.679-18.68c0-0.285-0.006-0.568-0.019-0.849 C 30.007,8.548, 31.12,7.392, 32,6.076z"></path></g></svg>
                     </span>
@@ -75,7 +122,7 @@
 
         <ul class="social-share social-share--bottom">
             <li class="social-share__item social-share__item--facebook">
-                <a class="social-share__link social-share__link--facebook social-share__link--facebook-bottom" data-action="Facebook Share" data-label="Bottom" href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=<? print(urlencode($current_url));?>', 'facebook_share_dialog', 'width=626,height=436');return false;">
+                <a class="social-share__link social-share__link--facebook social-share__link--facebook-bottom" data-position="Bottom" data-label="<? echo $user_ip;?>" data-url="<? echo $current_url;?>" href="#">
                     <span class="icon-social icon-social--facebook" role="presentation" aria-hidden="true">
                         <svg viewBox="0 0 33 33" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M 17.996,32L 12,32 L 12,16 l-4,0 l0-5.514 l 4-0.002l-0.006-3.248C 11.993,2.737, 13.213,0, 18.512,0l 4.412,0 l0,5.515 l-2.757,0 c-2.063,0-2.163,0.77-2.163,2.209l-0.008,2.76l 4.959,0 l-0.585,5.514L 18,16L 17.996,32z"></path></g></svg>
                     </span>
@@ -83,7 +130,7 @@
                 </a>
             </li>
             <li class="social-share__item social-share__item--twitter">
-                <a class="social-share__link social-share__link--twitter social-share__link--twitter-bottom" data-action="Twitter Share" data-label="Bottom" href="#" onclick="window.open('http://twitter.com/intent/tweet?status=<?print(urlencode($title));?> <? print(urlencode($current_url));?>', 'twitter-share-dialog', 'width=626,height=436');return false;">
+                <a class="social-share__link social-share__link--twitter social-share__link--twitter-bottom" data-action="Twitter Share - Bottom" data-label="<? echo $user_ip;?>" href="#" onclick="window.open('http://twitter.com/intent/tweet?status=<?print(urlencode($title));?> <? print(urlencode($current_url));?>', 'twitter-share-dialog', 'width=626,height=436');return false;">
                     <span class="icon-social icon-social--twitter" role="presentation" aria-hidden="true" >
                         <svg viewBox="0 0 33 33" width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M 32,6.076c-1.177,0.522-2.443,0.875-3.771,1.034c 1.355-0.813, 2.396-2.099, 2.887-3.632 c-1.269,0.752-2.674,1.299-4.169,1.593c-1.198-1.276-2.904-2.073-4.792-2.073c-3.626,0-6.565,2.939-6.565,6.565 c0,0.515, 0.058,1.016, 0.17,1.496c-5.456-0.274-10.294-2.888-13.532-6.86c-0.565,0.97-0.889,2.097-0.889,3.301 c0,2.278, 1.159,4.287, 2.921,5.465c-1.076-0.034-2.088-0.329-2.974-0.821c-0.001,0.027-0.001,0.055-0.001,0.083 c0,3.181, 2.263,5.834, 5.266,6.438c-0.551,0.15-1.131,0.23-1.73,0.23c-0.423,0-0.834-0.041-1.235-0.118 c 0.836,2.608, 3.26,4.506, 6.133,4.559c-2.247,1.761-5.078,2.81-8.154,2.81c-0.53,0-1.052-0.031-1.566-0.092 c 2.905,1.863, 6.356,2.95, 10.064,2.95c 12.076,0, 18.679-10.004, 18.679-18.68c0-0.285-0.006-0.568-0.019-0.849 C 30.007,8.548, 31.12,7.392, 32,6.076z"></path></g></svg>
                     </span>

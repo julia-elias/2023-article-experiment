@@ -4,18 +4,19 @@ $(document).ready(function(){
     var commenter_name = $("#commenter-name").val();
     var new_comment = $("#commenter-comment").val();
     var identifier = $("#comment-identifier").val();
+    var label = $('#user-ip').attr('data-ip');
 
     if (commenter_name.length > 0 && new_comment.length > 0 ) {
       submitComment(commenter_name, new_comment, identifier);
       appendComment(commenter_name, new_comment);
       // send to google
-      ga('send','event','Comments', 'Add Comment', 'Add Comment Successful');
+      ga('send','event','Comments', 'Add Comment', label);
 
     } else {
       submitCommentError();
       // var commenter_position = ".support";
       // send to google
-      ga('send','event','Comments', 'Add Comment Error', 'Form not entered correctly');
+      ga('send','event','Comments', 'Add Comment Error', label);
     }
 
     // var commenter_position = ".support";
