@@ -1,5 +1,20 @@
 $(document).ready(function() {
 
+    twttr.ready(function (twttr) {
+        // bind events here
+        twttr.events.bind('tweet', tweetIntentToAnalytics);
+      }
+    );
+
+    function tweetIntentToAnalytics (intentEvent) {
+      if (!intentEvent) return;
+
+        var action = $(intentEvent.target).attr('data-action');
+        var label = $(intentEvent.target).attr('data-label');
+
+        ga('send','event', 'Social', action+' - Clicked', label);
+    }
+
     // hide comments on page load
     if($('.comments-section').length) {
         $('.comments-section').hide();
@@ -12,12 +27,6 @@ $(document).ready(function() {
         var label = $('#user-ip').attr('data-ip');
         // send to google
         ga('send','event','Comments', 'Show Comments', label);
-    });
-
-    $('.social-share__link--twitter').click(function(e){
-        var action = $(this).attr('data-action');
-        var label = $(this).attr('data-label');
-        ga('send','event', 'Social', action, label);
     });
 
     $('.social-share__link--facebook').click(function(e){
