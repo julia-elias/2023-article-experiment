@@ -4,5 +4,4 @@
 */log/*
 *.log
 .sass-cache
-post-w-comments-code
 gulp
