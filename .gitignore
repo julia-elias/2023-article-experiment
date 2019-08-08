@@ -1,9 +1,5 @@
 .DS_Store
-/log/*
-/logs/*
-/tmp/**
-*/log/*
-*/logs/*
+/logs
 *.log
+/node_modules
 .sass-cache
-gulp
