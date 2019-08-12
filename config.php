@@ -75,11 +75,9 @@ foreach($config['variations'] as $key => $val) {
             'value' =>   $val['GET']['values'][$GETKeyVal]
         );
     } else {
-        // use the default
-        $variations[$val['id']] = array(
-            'GETKeyVal' => 'default',
-            'value' =>   $val['GET']['values']['default']
-        );
+        // we're requiring the parameter be there
+        die('Missing a valid parameter for '.$val['GET']['key']);
+
     }
 }
 
