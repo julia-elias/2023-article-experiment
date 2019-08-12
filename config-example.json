@@ -1,20 +1,34 @@
 {
-    "README": "There are notes in config.php where each of these keys is used. View config.php's comments to see what each value is used for.",
+    "README": "There are notes in config-example.json and config.php where each of these keys is used. View config-example.json's config.php's comments to see what each value is used for.",
+    // The name of the directory on thenewsbeat.org. Used to set the dist and relative paths. 
+    // The below line means that the url will end up being https://thenewsbeat.org/2019-reporter-biographies/
     "newsbeatDirectoryName": "2019-reporter-biographies",
+    // The prefix that gets used for generating unique user IDs. You'll need to delete your localStorage to get a new ID generated.
     "studyPrefix": "bio_",
+    // Site name. Ie - The News Beat, The Gazette Star, etc.
     "siteName": "The Gazette Star",
+    // Where the fun happens. Use this area to automatically set all the parameters for the study.
     "variations": [
         {
+            // ID used in the log to reference this parameter
             "id": "photo",
+            // The name of the php CONSTANT that will get generated from this value
             "constant": "AUTHOR_PHOTO",
             "GET": {
+                // key means you'd use ?author_photo to $_GET this value
                 "key": "author_photo",
+                // whitelisted values so not just anything can get used. Only $_GET['author_photo'] = "none" || "true"
                 "values": {
+                    // if $_GET['author_photo'] = "none" then AUTHOR_PHOTO will be false
                     "none": false,
+                    // if $_GET['author_photo'] = "true" then AUTHOR_PHOTO will be "../../dist/img/author-image.jpg"
                     "true": "../../dist/img/author-image.jpg"
+                    // TODO: Make this an array of objects with something like {value: false, match: {type: 'String||Regex||Number', pattern: ''}}
+                    //       so we can match more than just explicit strings. OR something that accepts a regex validated value
                 }
             }
         },
+        // Another variation
         {
             "id": "bio",
             "constant": "AUTHOR_BIO",
@@ -28,6 +42,7 @@
             }
         }
     ],
+    // Default article data used across the site, unless overrided by one of the above values.
     "article": {
         "author": {
             "name": "Jim Phelps",
