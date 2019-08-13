@@ -3,6 +3,7 @@
     "newsbeatDirectoryName": "2019-reporter-biographies",
     "studyPrefix": "bio_",
     "siteName": "The Gazette Star",
+    "templatePath": "/templates/article-template.php",
     "variations": [
         {
             "id": "bio",

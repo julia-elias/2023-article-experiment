@@ -24,7 +24,6 @@ define('NEWSBEAT_DIRECTORY_NAME', $config['newsbeatDirectoryName']);
 define('STUDY_PREFIX',  $config['studyPrefix']);
 
 define('IS_DEV', "$_SERVER[HTTP_HOST]" !== 'thenewsbeat.org');
-define('SITE_NAME', $config['siteName']);
 define('DIST_URL', IS_DEV ? "https://$_SERVER[HTTP_HOST]/dist" : "https://$_SERVER[HTTP_HOST]/".NEWSBEAT_DIRECTORY_NAME."/dist");
 
 function getConfigVariation($variationKey) {
@@ -183,11 +182,13 @@ foreach($config['variations'] as $val) {
 
 // set the rest of the possible constants
 $constants = array(
-    'AUTHOR_NAME' => $config['article']['author']['name'],
-    'AUTHOR_BIO' => $config['article']['author']['bio'],
-    'AUTHOR_PHOTO' => DIST_URL."/img/".$config['article']['author']['image']['src'],
+    'SITE_NAME'     => $config['siteName'],
+    'TEMPLATE_PATH' => dirname(__FILE__).$config['templatePath'],
+    'AUTHOR_NAME'   => $config['article']['author']['name'],
+    'AUTHOR_BIO'    => $config['article']['author']['bio'],
+    'AUTHOR_PHOTO'  => DIST_URL."/img/".$config['article']['author']['image']['src'],
     'AUTHOR_PHOTO_ALT' => $config['article']['author']['image']['alt'],
-    'PUBDATE' => $config['article']['pubdate']
+    'PUBDATE'       => $config['article']['pubdate']
 );
 
 foreach($constants as $key => $val) {
