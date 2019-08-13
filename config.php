@@ -28,8 +28,19 @@ define('SITE_NAME', $config['siteName']);
 define('DIST_URL', IS_DEV ? "https://$_SERVER[HTTP_HOST]/dist" : "https://$_SERVER[HTTP_HOST]/".NEWSBEAT_DIRECTORY_NAME."/dist");
 
 function getConfigVariation($variationKey) {
-    foreach($config['variations'] as $key => $val) {
+    foreach($config['variations'] as $val) {
         if($variationKey === $key) {
+            return $val;
+        }
+    }
+
+    return false;
+}
+
+function getVarsByGetKey($GET) {
+    global $config;
+    foreach($config['variations'] as $val) {
+        if($val['GET'] === $GET) {
             return $val;
         }
     }
@@ -62,22 +73,79 @@ function getConfigVariation($variationKey) {
 
 $variations = array();
 // Get all the potential values
-foreach($config['variations'] as $key => $val) {
-    if(isset($_GET[$val['GET']['key']])) {
-        $GETKeyVal = $_GET[$val['GET']['key']];
-        // check if this value is set as a valid GET Key value in the JSON array
-        if(!isset($val['GET']['values'][$GETKeyVal])) {
-            die($GETKeyVal .' is not a valid value for '.$val['GET']['key']);
-        }
-        // we have a value, so set it
-        $variations[$val['id']] = array(
-            'GETKeyVal' => $GETKeyVal,
-            'value' =>   $val['GET']['values'][$GETKeyVal]
-        );
-    } else {
-        // we're requiring the parameter be there
-        die('Missing a valid parameter for '.$val['GET']['key']);
+// foreach($config['variations'] as $key => $val) {
+//     if(isset($_GET[$val['GET']['key']])) {
+//         $GETKeyVal = $_GET[$val['GET']['key']];
+//         // check if this value is set as a valid GET Key value in the JSON array
+//         if(!isset($val['GET']['values'][$GETKeyVal])) {
+//             die($GETKeyVal .' is not a valid value for '.$val['GET']['key']);
+//         }
+//         // we have a value, so set it
+//         $variations[$val['id']] = array(
+//             'GETKeyVal' => $GETKeyVal,
+//             'value' =>   $val['GET']['values'][$GETKeyVal]
+//         );
+//     } else {
+//         // use the default
+//         // $variations[$val['id']] = array(
+//         //     'GETKeyVal' => 'default',
+//         //     'value' =>   $val['GET']['values']['default']
+//         // );
+//         die('Missing a valid parameter for '.$val['GET']['key']);
 
+//     }
+// }
+
+foreach($config['variations'] as $configVar) {
+    // set variation to false at the beginning of the loop
+    $variation = false;
+
+    // if it's required, then make sure it's there and fail if not
+    if(!isset($_GET[$configVar['GET']])) {
+        if($configVar['required']) {
+            die('Missing a valid parameter for '.$configVar['GET']);
+        }
+        continue;
+    }
+
+    // find this $_GET key
+    $GETKeyVal = $_GET[$configVar['GET']];
+
+    // check each of the vars for this variation
+    foreach($configVar['vars'] as $var) {
+        // if we have a regex pattern, check by regex
+        if((isset($var['regex']) && $var['regex']) ) {
+            if(preg_match($var['key'], $GETKeyVal)) {
+                // this is a regex and the passed value
+                // set this $configVar info
+                $variation = array(
+                    // used when building the identifier
+                    'id' => $var['id'],
+                    'key' => $GETKeyVal,
+                    // value for this constant. Since the regex matched, use the passed value
+                    'value' => $GETKeyVal
+                    
+                );
+                break;
+            }
+        } else if ($GETKeyVal === $var['key']) {
+            $variation = array(
+                // used when building the identifier
+                'id' => $var['id'],
+                'key' => $var['key'],
+                // value for this variation
+                'value' => $var['value']
+            );
+            break;
+        }
+    }
+    
+    // if the variation never got set, then throw an error
+    if($variation === false) {
+        die($GETKeyVal .' is not a valid value for '.$configVar['GET']);
+    } else {
+        // we have a value, so set it
+        $variations[$configVar['id']] = $variation;
     }
 }
 
@@ -87,9 +155,9 @@ foreach($config['variations'] as $key => $val) {
  */
 $identifier = '';
 if(!empty($variations)) {
-    foreach($variations as $key => $val) {
+    foreach($variations as $key => $variation) {
         // build the identifier. the value for controls will be "default"
-        $identifier .= (!empty($identifier) ? '_' : '') . $key .'_'. $val['GETKeyVal'];
+        $identifier .= (!empty($identifier) ? '_' : '') . $key .'_'. $variation['key'];
     }
 }
 
@@ -106,8 +174,11 @@ define('IDENTIFIER', $identifier);
  */
 
 //  Set our variation constants
-foreach($config['variations'] as $key => $val) {
-    define($val['constant'], $variations[$val['id']]['value']);
+foreach($config['variations'] as $val) {
+    if(isset($variations[$val['id']])) {
+        define($val['constant'], $variations[$val['id']]['value']);
+    }
+    
 }
 
 // set the rest of the possible constants

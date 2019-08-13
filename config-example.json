@@ -10,12 +10,11 @@
     // Where the fun happens. Use this area to automatically set all the parameters for the study.
     "variations": [
         {
-            // ID used in the log to reference this parameter
+            
             "id": "photo",
-            // The name of the php CONSTANT that will get generated from this value
             "constant": "AUTHOR_PHOTO",
             "GET": {
-                // key means you'd use ?author_photo to $_GET this value
+                
                 "key": "author_photo",
                 // whitelisted values so not just anything can get used. Only $_GET['author_photo'] = "none" || "true"
                 "values": {
@@ -40,6 +39,61 @@
                     "basic": "<p>Jim Phelps is a science reporter for The Gazette Star. His coverage of energy and the environment has appeared in the Dallas Morning News, The Atlantic and Newsweek. He began his career at the Denver Post, where he was part of a team that won a Pulitzer Prize for their story about the pollution of popular hot springs in Aspen. He graduated with a journalism degree from Vanderbilt University and served as editor-in-chief of the student newspaper.</p>"
                 }
             }
+        }
+        {
+            // ID used in the log to reference this parameter
+            "id": "bio",
+            // The name of the php CONSTANT that will get generated from this value
+            "constant": "AUTHOR_BIO",
+            // key means you'd use ?author_photo to $_GET this value
+            "GET": "author_bio",
+            // if this parameter is required or not. Page will die() with message if required is true and the $_GET is not there or if it doesn't match any of the valid items
+            "required": true,
+            // allowed vars to match against
+            "vars": [
+                {
+                    // reference ID for this var
+                    "id": "none",
+                    // actual key to match against, ie ?author_bio=none
+                    "key": "none",
+                    // value if this key matches. AUTHOR_BIO would be set to false
+                    "value": false
+                },
+                {
+                    // reference ID for this var                    
+                    "id": "personal",
+                    // actual key to match against, ie ?author_bio=personal
+                    "key": "personal",
+                    // value if this key matches. AUTHOR_BIO would be set to the string below
+                    "value": "<p>Jim Phelps is a science reporter for The Gazette Star. His coverage of energy and the environment has appeared in the Dallas Morning News, The Atlantic and Newsweek. A Colorado native and life-long Broncos fan, he began his career at the Denver Post, where he was part of a team that won a Pulitzer Prize for their story about the pollution of popular hot springs in Aspen. He graduated with a journalism degree from Vanderbilt University where he served as the editor-in-chief of the student newspaper. His simple pleasures in life include hiking with his wife and two sons and the smell of barbecue on the lakefront after surviving a cold winter.</p>"
+                },
+                {
+                    "id": "basic",
+                    "key": "basic",
+                    "value": "<p>Jim Phelps is a science reporter for The Gazette Star. His coverage of energy and the environment has appeared in the Dallas Morning News, The Atlantic and Newsweek. He began his career at the Denver Post, where he was part of a team that won a Pulitzer Prize for their story about the pollution of popular hot springs in Aspen. He graduated with a journalism degree from Vanderbilt University and served as editor-in-chief of the student newspaper.</p>"
+                }
+            ]
+        },
+        // Another variation with regex
+        {
+            "id": "photo_size",
+            "constant": "AUTHOR_PHOTO_SIZE",
+            "GET": "photo_size",
+            "required": false,
+            "vars": [
+                {
+                    "id": "small",
+                    "key": "small",
+                    "value": 50
+                },
+                {
+                    "id": "px",
+                    // if regex = true, then the key can be a regex pattern to match against. The value will be set if it matches
+                    "key": "/[0-9]+/",
+                    // No "value" here. Will set value as the $_GET['photo_size'] if the regex matches. ID would get set as 'photo_size_'.$_GET['photo_size']
+                    "regex": true
+                }
+            ]
         }
     ],
     // Default article data used across the site, unless overrided by one of the above values.
