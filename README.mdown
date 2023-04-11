@@ -54,3 +54,5 @@ Experiments are found at http://thegazettestar.com/. On WP Engine the site is ca
     "openSsh": false
 }
 ```
+
+_All you need to change in the code above is the `username` and `password` values._
