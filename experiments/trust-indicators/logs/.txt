@@ -1,6 +1,0 @@
-|127.0.0.1|04/21/2017 5:37:39 PM|Testing comments|Testing
-|127.0.0.1|04/21/2017 6:05:04 PM|Name |Testoinsfoai sjdfoasi jcomment
-|127.0.0.1|04/21/2017 6:07:06 PM|Jerry Jones|This is my test comment on this article.
-|99.21.222.72|05/02/2017 6:23:14 AM|Testing|This is my comment.
-|99.21.222.72|05/03/2017 8:48:44 AM|test|teststsetseteset
-|99.21.222.72|05/03/2017 8:49:56 AM|control|comment test
