@@ -34,7 +34,7 @@ Experiments are found at http://thegazettestar.com/. On WP Engine the site is ca
 	
 2) Create an empty directory that you wish to first download the contents of the remote server. Open that directory in VS Code.
 
-3) Download the VS Code [SFTP extension](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp)
+3) Download the VS Code [SFTP extension](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp) for VS Code.
 
 4) `Ctrl+Shift+P` on Windows/Linux or `Cmd+Shift+P` on Mac open command palette, run `SFTP: config` command.
 
