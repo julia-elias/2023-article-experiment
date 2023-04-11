@@ -1,0 +1,42 @@
+<h2>Control Versions</h2>
+<ul>
+    <li>ID: <strong>r-ctr</strong>, <a href="articles/gun-ban-no-effect/ctr.php">Study: Under-21 gun ban will have little or no effect on mass shootings</a></li>
+    <li>ID: <strong>l-ctr</strong>, <a href="articles/stricter-gun-laws-prevent-shooting/ctr.php">Study: Stricter gun laws could prevent mass shootings and save lives</a></li>
+</ul>
+
+<h2>Demonstrating Balance</h2>
+<ul>
+    <li>ID: <strong>r-db</strong>, <a href="articles/gun-ban-no-effect">Study: Under-21 gun ban will have little or no effect on mass shootings</a></li>
+    <li>ID: <strong>l-db</strong>,<a href="articles/stricter-gun-laws-prevent-shooting">Study: Stricter gun laws could prevent mass shootings and save lives</a></li>
+</ul>
+
+<h2>When a user clicks the DB section on a DB article, they go to:</h2>
+<ul>
+    <li>ID: <strong>l-to-r-db</strong>, <a href="articles/gun-ban-no-effect/balanced.php">Study: Under-21 gun ban will have little or no effect on mass shootings</a></li>
+    <li>ID: <strong>r-to-l-db</strong>, <a href="articles/stricter-gun-laws-prevent-shooting/balanced.php">Study: Stricter gun laws could prevent mass shootings and save lives</a></li>
+</ul>
+
+<h2>Go to Previous Article Link</h2>
+Go to Previous Article link is dynamic and automatically appears if you go to a new page within the same session. A session is counted as one browser window/tab. As long as they're in the same browser window as when they started, their session will stay the same.
+
+When they click a link in the article, this new link will get added to their history we are storing with sessionStorage (basically Cookies, but for Javascript). The Go to Previous Article link will track every new page they are on, and remain showing until they have clicked it enough to go back to whatever page they started on.
+
+
+<h2>Logs</h2>
+<p>For each new user, we generate a userID and store it in localStorage (like sessionStorage but persists across windows/tabs). This gets passed to the log for every interaction so we can see what a user does across their entire visit.</p>
+
+<p>The breakdown of each log is like this:</p>
+<p>[ url of the page they're on ]|[ id of the page ]|[ user ID ]|[ user IP ]|[ date logged ]|[ action category ]|[ action ]|[ description ]</p>
+
+<p>For example, here's the log when a page is loaded:</p>
+<p>https://demonstrating-balance.test/articles/stricter-gun-laws-prevent-shooting/balanced.php|r-db|db_5b180fd6d6814|127.0.0.1|06/06/2018 11:47:09 AM|Page View|Study:-Stricter-gun-laws-could-prevent-mass-shootings-and-save-lives|Loaded</p>
+
+<p>Here are all the [ action category ]|[ action ]|[ description ]'s we are logging:</p>
+
+<ul>
+    <li><strong>When a page gets loaded:</strong><br/>Page View|[ url of the loaded page ]|Loaded</li>
+    <li><strong>When a user clicks a link, we log the click before sending them to the new page:</strong><br/>click|Link: [ link text ]|[ url of the destination the link goes to ]</li>
+    <li><strong>When a Twitter for Facebook share button is clicked:</strong><br/>click|Button: [ button type ]|[ button location ]</li>
+    <li><strong>When a user fills out and successfully submits the comment form:</strong><br/>Comment|Add Comment|[ name from comment form ]: [ comment text ]</li>
+</ul>
+

@@ -1,0 +1,29 @@
+<h2>Control Versions</h2>
+<ul>
+    <li>ID: <strong>hr-ctr</strong>, <a href="articles/hit-and-run/ctr.php">Police search for suspect in near-fatal hit-and-run</a></li>
+    <li>ID: <strong>ss-ctr</strong>, <a href="articles/school-shooting/ctr.php">Mass school shootings mostly happening in small-town America</a></li>
+</ul>
+
+<h2>EYP</h2>
+<ul>
+    <li>ID: <strong>hr-eyp</strong>, <a href="articles/hit-and-run">Police search for suspect in near-fatal hit-and-run</a></li>
+    <li>ID: <strong>ss-eyp</strong>,<a href="articles/school-shooting">Mass school shootings mostly happening in small-town America</a></li>
+</ul>
+
+<h2>Logs</h2>
+<p>For each new user, we generate a userID and store it in localStorage (like sessionStorage but persists across windows/tabs). This gets passed to the log for every interaction so we can see what a user does across their entire visit.</p>
+
+<p>The breakdown of each log is like this:</p>
+<p>[ url of the page they're on ]|[ id of the page ]|[ user ID ]|[ user IP ]|[ date logged ]|[ action category ]|[ action ]|[ description ]</p>
+
+<p>For example, here's the log when a page is loaded:</p>
+<p>https://eyp-study.test/articles/hit-and-run/ctr.php|hr-ctr|db_5b2bd7ed3b158|127.0.0.1|07/31/2018 8:18:04 AM|Page View|Police-search-for-suspect-in-near-fatal-hit-and-run|Loaded</p>
+
+<p>Here are all the [ action category ]|[ action ]|[ description ]'s we are logging:</p>
+
+<ul>
+    <li><strong>When a page gets loaded:</strong><br/>Page View|[ url of the loaded page ]|Loaded</li>
+    <li><strong>When a Twitter for Facebook share button is clicked:</strong><br/>click|Button: [ button type ]|[ button location ]</li>
+    <li><strong>When a user fills out and successfully submits the comment form:</strong><br/>Comment|Add Comment|[ name from comment form ]: [ comment text ]</li>
+</ul>
+
