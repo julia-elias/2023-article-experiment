@@ -29,6 +29,21 @@
         
         echo $article['content'];
 
+
+        if(defined('EXPLAIN_BOX')): ?>
+          <section class="behind-the-story well">
+          <h2 class="behind-the-story__title">Behind the Story</h2>
+
+          <h3>Why we wrote it</h3>
+          <?php echo EXPLAIN_BOX;?>
+
+          <p>This story was researched, written, and published in accordance with The Gazette Star’s best practices.</p>
+
+        </section>
+        <?php endif;?>
+
+        <?php
+
         include('comments.php');
 
         ?>
